@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>تمدونی — داخل دوره</title>
+  <link href="https://cdn.jsdelivr.net/npm/vazirmatn@33.003/fonts/variable/FD.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <link rel="stylesheet" href="./src/css/styles.css">
+</head>
+<body class="bg-slate-950 text-slate-50 font-sans">
+  <header class="max-w-6xl mx-auto px-4 py-6 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <img src="./assets/logo.jpg" class="w-9 h-9" alt="Tamdooni">
+      <h1 class="text-xl font-bold">تمدونی</h1>
+    </div>
+    <a href="./index.html" class="text-sm opacity-80 hover:opacity-100">بازگشت به پنل</a>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 pb-24 grid lg:grid-cols-12 gap-6">
+    <aside class="lg:col-span-4 card p-4">
+      <h2 class="font-semibold mb-3" id="courseTitle">...</h2>
+      <div id="chapters" class="space-y-2"></div>
+    </aside>
+
+    <section class="lg:col-span-8 space-y-4">
+      <div class="card p-4">
+        <video id="player" class="w-full rounded-lg" controls controlsList="nodownload" playsinline></video>
+      </div>
+
+      <div class="card p-4">
+        <div class="tabs mb-3">
+          <button class="tab-button active" data-tab="videos">ویدئوها</button>
+          <button class="tab-button" data-tab="quiz">آزمون</button>
+          <button class="tab-button" data-tab="files">فایل‌ها</button>
+        </div>
+        <div id="tab-videos" class="tab-panel"></div>
+        <div id="tab-quiz" class="tab-panel hidden"></div>
+        <div id="tab-files" class="tab-panel hidden"></div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module">
+    import { initCoursePage } from './src/js/main.js';
+    initCoursePage();
+  </script>
+  <script>
+    document.addEventListener('contextmenu', e => {
+      if ((e.target || {}).tagName === 'VIDEO') e.preventDefault();
+    });
+  </script>
+</body>
+</html>

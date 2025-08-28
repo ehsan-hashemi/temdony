@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>تمدونی — پنل هنرجو</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="./src/css/styles.css">
+</head>
+<body class="bg-slate-950 text-slate-50 font-sans">
+  <header class="max-w-7xl mx-auto px-4 py-6 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <img src="./assets/logo.jpg" class="w-9 h-9" alt="Tamdooni">
+      <h1 class="text-xl font-bold">تمدونی</h1>
+    </div>
+    <nav class="flex items-center gap-6 text-sm opacity-90">
+      <a class="hover:opacity-100 opacity-80" href="#dashboard">داشبورد</a>
+      <a class="hover:opacity-100 opacity-80" href="#my-courses">دوره‌های من</a>
+      <a class="hover:opacity-100 opacity-80" href="#catalog">فهرست دوره‌ها</a>
+      <a class="hover:opacity-100 opacity-80" href="#activate">افزودن دوره</a>
+    </nav>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 pb-24 space-y-10">
+    <!-- داشبورد پروفایل -->
+    <section id="dashboard" class="card">
+      <h2 class="section-title">داشبورد</h2>
+      <form id="profileForm" class="grid md:grid-cols-4 gap-4">
+        <div>
+          <label class="label">نام</label>
+          <input id="firstName" class="input" placeholder="نام">
+        </div>
+        <div>
+          <label class="label">نام خانوادگی</label>
+          <input id="lastName" class="input" placeholder="نام خانوادگی">
+        </div>
+        <div>
+          <label class="label">شماره موبایل</label>
+          <input id="phone" class="input" placeholder="09xxxxxxxxx" required>
+        </div>
+        <div class="flex items-end">
+          <button class="btn-primary w-full">ثبت/ویرایش پروفایل</button>
+        </div>
+      </form>
+
+      <div id="studentIdBox" class="mt-6 hidden">
+        <div class="text-sm opacity-80 mb-2">شناسه هنرجو (برای ارسال به ادمین):</div>
+        <div class="flex items-stretch gap-3">
+          <input id="studentId" class="input flex-1 text-xs">
+          <button id="copyStudentId" class="btn-ghost">کپی</button>
+        </div>
+        <p class="hint">این شناسه به دستگاه شما قفل است.</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-4 mt-6">
+        <div class="stat">
+          <div class="stat-title">ویدئوهای تماشاشده امروز</div>
+          <div id="statVideosToday" class="stat-value">0</div>
+          <div id="statVideosTodayList" class="stat-desc"></div>
+        </div>
+        <div class="stat">
+          <div class="stat-title">دوره‌های خریداری‌شده</div>
+          <div id="statPurchased" class="stat-value">0</div>
+          <div class="stat-desc">مجموع دوره‌های فعال</div>
+        </div>
+        <div class="stat">
+          <div class="stat-title">پیشرفت کلی</div>
+          <div id="overallProgress" class="stat-value">0%</div>
+          <div class="stat-desc">میانگین فصول پاس‌شده</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- دوره‌های من -->
+    <section id="my-courses" class="card">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="section-title">دوره‌های من</h2>
+      </div>
+      <div id="myCourses" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    </section>
+
+    <!-- کاتالوگ دوره‌ها -->
+    <section id="catalog" class="card">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="section-title">فهرست دوره‌ها</h2>
+      </div>
+      <div id="catalogCourses" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    </section>
+
+    <!-- افزودن دوره -->
+    <section id="activate" class="card">
+      <h2 class="section-title">افزودن دوره با کد</h2>
+      <div class="grid md:grid-cols-5 gap-4">
+        <div class="md:col-span-4">
+          <textarea id="addCourseCode" class="input min-h-[120px] text-xs" placeholder="کدی که ادمین داده را اینجا Paste کنید"></textarea>
+        </div>
+        <div class="md:col-span-1 flex items-start">
+          <button id="addCourseBtn" class="btn-success w-full">افزودن</button>
+        </div>
+      </div>
+      <div id="addCourseMsg" class="text-sm mt-3"></div>
+    </section>
+  </main>
+
+  <script type="module">
+    import { ensurePersistence } from './src/js/storage.js';
+    import { initProfile, showStudentId } from './src/js/auth.js';
+    import { verifyAndStoreActivation } from './src/js/license.js';
+    import { renderDashboardStats, renderMyCourses, renderCatalog } from './src/js/ui.js';
+
+    await ensurePersistence();
+    initProfile();
+    showStudentId();
+
+    document.getElementById('addCourseBtn').addEventListener('click', async () => {
+      const code = document.getElementById('addCourseCode').value.trim();
+      const msg = document.getElementById('addCourseMsg');
+      msg.textContent = 'در حال بررسی کد...';
+      const ok = await verifyAndStoreActivation(code);
+      msg.textContent = ok ? 'دوره با موفقیت اضافه شد.' : 'کد نامعتبر است یا به این دستگاه تعلق ندارد.';
+      if (ok) {
+        renderMyCourses();
+        renderDashboardStats();
+      }
+    });
+
+    renderMyCourses();
+    renderCatalog();
+    renderDashboardStats();
+  </script>
+</body>
+</html>

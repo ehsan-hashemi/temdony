@@ -1,0 +1,153 @@
+/* src/css/styles.css */
+
+/* فونت وزیر */
+@font-face{
+  font-family:'Vazir';
+  src:url('./Vazir-Regular.ttf') format('truetype');
+  font-weight:400;
+  font-style:normal;
+  font-display:swap;
+}
+* { font-family: "Vazir"; -webkit-tap-highlight-color: transparent; }
+
+:root {
+  --bg: #0a0f1e;
+  --surface: rgba(16, 25, 46, 0.75);
+  --card: rgba(16, 25, 46, 0.65);
+  --border: #2a3856;
+  --ink: #e5eefc;
+  --muted: #9fb0cf;
+  --brand: #5b7cfa;
+  --brand-700: #4a66d9;
+  --success: #10b981;
+  --warn: #f59e0b;
+  --danger: #ef4444;
+  --focus: 0 0 0 3px rgba(91, 124, 250, 0.35);
+}
+
+body { background: radial-gradient(1200px 800px at 80% -10%, #122046, transparent), var(--bg); color: var(--ink); }
+
+/* کارت‌ها، بخش‌ها */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 12px 36px rgba(0,0,0,.35);
+  backdrop-filter: blur(8px);
+}
+.section-title { font-weight: 800; margin-bottom: 12px; }
+
+/* فرم‌ها */
+.label { font-size: 12px; opacity: .85; }
+.input {
+  width: 100%; background: #101a2f; border: 1px solid var(--border);
+  padding: 10px 12px; border-radius: 10px; outline: none; transition: border-color .2s, box-shadow .2s, background .2s;
+  color: var(--ink);
+}
+textarea.input { min-height: 120px; }
+.input:focus { border-color: var(--brand); box-shadow: var(--focus); background:#0f172a; }
+
+/* دکمه‌ها */
+.btn-primary, .btn-success, .btn-ghost, .btn-danger {
+  border-radius: 10px; padding: 10px 14px; font-weight: 800;
+  transition: transform .05s ease, background-color .2s, border-color .2s, color .2s;
+}
+.btn-primary { background: var(--brand); color: #fff; }
+.btn-primary:hover { background: var(--brand-700); }
+.btn-success { background: var(--success); color: #052e23; }
+.btn-success:hover { background: #0ea371; color: #eafff8; }
+.btn-ghost { background: #101a2f; border: 1px solid var(--border); color: var(--ink); }
+.btn-ghost:hover { border-color: var(--brand); }
+.btn-danger { background: var(--danger); color: #fff; }
+.btn-danger:hover { background: #dc2626; }
+button:active { transform: translateY(1px); }
+button.disabled { opacity: .5; cursor: not-allowed; }
+
+/* هشدارها */
+.alert { background: rgba(245, 158, 11, .12); border: 1px solid rgba(245, 158, 11, .35); padding: 12px 14px; border-radius: 10px; }
+.alert-success { background: rgba(16, 185, 129, .12); border: 1px solid rgba(16, 185, 129, .35); padding: 12px 14px; border-radius: 10px; color:#c7f9ea; }
+.alert-warn { background: rgba(245, 158, 11, .12); border: 1px solid rgba(245, 158, 11, .35); padding: 12px 14px; border-radius: 10px; color:#ffe9c7; }
+
+/* کارت دوره‌ها */
+.course-card {
+  display: block; border: 1px solid var(--border); background: var(--surface);
+  border-radius: 16px; overflow: hidden; transition: border-color .2s, transform .2s, box-shadow .2s;
+}
+.course-card:hover { border-color: var(--brand); transform: translateY(-2px); box-shadow: 0 16px 40px rgba(0,0,0,.4); }
+.course-card .thumb { aspect-ratio: 16/9; background: #0f172a; }
+.course-card .thumb img { width: 100%; height: 100%; object-fit: cover; }
+.course-card .body { padding: 12px; }
+.course-card .title { font-weight: 800; }
+.course-card .meta { font-size: 12px; color: var(--muted); margin-top: 4px; }
+.course-card .bar { height: 8px; background: #0f172a; border-radius: 999px; margin-top: 10px; overflow: hidden; }
+.course-card .bar span { display: block; height: 100%; background: var(--brand); }
+
+/* سایدبار فصل‌ها */
+.chapter {
+  width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  background: #101a2f; border: 1px solid var(--border); color: var(--ink); padding: 10px 12px;
+  border-radius: 12px; transition: border-color .2s, background .2s, transform .05s;
+}
+.chapter:not(.locked):hover { border-color: var(--brand); }
+.chapter.locked { opacity: .6; cursor: not-allowed; }
+.chapter.active { border-color: var(--brand); background: rgba(91,124,250,.12); }
+
+/* آیکون‌های ساده */
+.fi { display: inline-block; width: 1em; text-align: center; }
+.fi-lock::before { content: "🔒"; }
+.fi-unlock::before { content: "🔓"; }
+.fi-play::before { content: "▶️"; }
+.fi-download::before { content: "⬇️"; }
+
+/* تب‌ها */
+.tabs { display: flex; gap: 8px; }
+.tab-button {
+  background: #101a2f; border: 1px solid var(--border); color: var(--ink);
+  padding: 8px 12px; border-radius: 10px; font-size: 14px; transition: border-color .2s, background .2s;
+}
+.tab-button.active, .tab-button:hover { border-color: var(--brand); }
+.tab-panel.hidden { display: none; }
+
+/* لیست درس‌ها و فایل‌ها */
+.lesson-list, .file-list { display: grid; gap: 8px; }
+.lesson-item, .file-item {
+  display: flex; align-items: center; gap: 10px; background: #101a2f; border: 1px solid var(--border);
+  padding: 10px 12px; border-radius: 10px; transition: border-color .2s, transform .05s;
+}
+.lesson-item:hover, .file-item:hover { border-color: var(--brand); }
+.lesson-item:active, .file-item:active { transform: translateY(1px); }
+
+/* Toast */
+.toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px);
+  background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.35); color: #d1fae5;
+  padding: 10px 14px; border-radius: 10px; opacity: 0; transition: opacity .25s, transform .25s; pointer-events: none; z-index: 50;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* هایلایت فصل unlock شده */
+.unlocked-flash { animation: unlockFlash 1.2s ease; }
+@keyframes unlockFlash {
+  0% { box-shadow: 0 0 0 0 rgba(91,124,250,0.7); }
+  60% { box-shadow: 0 0 0 12px rgba(91,124,250,0); }
+  100% { box-shadow: 0 0 0 0 rgba(91,124,250,0); }
+}
+
+/* کوییز حرفه‌ای */
+.quiz-form { display: grid; gap: 12px; }
+.quiz-q { background:#0f172a; border:1px solid var(--border); border-radius:12px; padding:12px; }
+.quiz-q-title { font-weight: 800; margin-bottom: 8px; }
+.quiz-opt { display:flex; gap:10px; align-items:center; background:#0f172a; border:1px dashed transparent; padding:8px 10px; border-radius:10px; cursor:pointer; }
+.quiz-opt:hover { border-color: var(--brand); }
+.quiz-actions { display:flex; gap:12px; justify-content:flex-start; margin-top: 4px; }
+.quiz-result { margin-top: 8px; }
+.quiz-meta { margin-top: 6px; font-size:12px; color: var(--muted); }
+
+/* لینک عمومی */
+.link { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+
+/* ویدئو */
+video { background: #0f172a; border-radius: 12px; width:100%; }
+video::-webkit-media-controls-enclosure { overflow: hidden; }
+video::-webkit-media-controls-download-button { display: none !important; }
