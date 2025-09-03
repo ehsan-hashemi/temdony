@@ -8,6 +8,7 @@ const KEYS = {
   user: 'user-profile',
 };
 
+// ساخت یا گرفتن deviceId
 async function ensureDeviceId() {
   let id = await getKV(KEYS.deviceId);
   if (!id) {
@@ -17,12 +18,25 @@ async function ensureDeviceId() {
   return id;
 }
 
+// محاسبه studentId (هش)
 async function computeStudentId(profile) {
   const deviceId = await ensureDeviceId();
   const raw = new TextEncoder().encode(`${deviceId}.${profile.phoneHash}.${APP.userSalt}`);
   return toB64u(await sha256(raw));
 }
 
+// گرفتن IP عمومی
+async function getIP() {
+  try {
+    const res = await fetch('https://api.ipify.org?format=json');
+    const data = await res.json();
+    return data.ip;
+  } catch {
+    return 'نامشخص';
+  }
+}
+
+// ثبت پروفایل
 export const initProfile = () => {
   const form = document.getElementById('profileForm');
   if (!form) return;
@@ -39,13 +53,31 @@ export const initProfile = () => {
   });
 };
 
+// نمایش کد هنرجو (شامل همه اطلاعات)
 export const showStudentId = async () => {
   const box = document.getElementById('studentIdBox');
   const input = document.getElementById('studentId');
   if (!box || !input) return;
   const profile = await getKV('user-profile');
   if (!profile) return;
-  const code = await computeStudentId(profile);
+
+  const studentId = await computeStudentId(profile);
+  const ip = await getIP();
+
+  // ساخت payload کامل
+  const payload = {
+    studentId,
+    firstName: profile.firstName || '',
+    lastName: profile.lastName || '',
+    phone: profile.phone || '',
+    ip,
+    ts: Date.now()
+  };
+
+  // تبدیل به Base64URL
+  const enc = new TextEncoder();
+  const code = toB64u(enc.encode(JSON.stringify(payload)));
+
   input.value = code;
   box.classList.remove('hidden');
   document.getElementById('copyStudentId')?.addEventListener('click', async () => {

@@ -7,14 +7,14 @@ export const APP = {
 export const COURSES = [
   {
     id: 'sgtmarket_stickercoure',
-    title: 'دوره آموزش ساخت و طراحی استیکر پیامرسان',
+    title: 'دوره آموزش ساخت و طراحی استیکر',
     cover: './assets/coure_sgtmarket.jpg',
     purchaseUrl: 'https://eitaa.com/admin_ehsan_m/',
     minScoreToUnlockNext: 70,
     chapters: [
       {
         id: 'ch1',
-        title: 'فصل ۱ — مبانی',
+        title: 'فصل ۱ — توضیحات اولیه',
         requires: { enabled: false }, // فصل آزاد
         quiz: {
           pass: 70,
