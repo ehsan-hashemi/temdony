@@ -6,10 +6,10 @@ export const APP = {
 
 export const COURSES = [
   {
-    id: 'theme-customization',
-    title: 'دوره آموزش شخصی‌سازی تم',
-    cover: './assets/cover-theme.jpg',
-    purchaseUrl: 'https://example.com/buy/theme-customization',
+    id: 'sgtmarket_stickercoure',
+    title: 'دوره آموزش ساخت و طراحی استیکر پیامرسان',
+    cover: './assets/coure_sgtmarket.jpg',
+    purchaseUrl: 'https://eitaa.com/admin_ehsan_m/',
     minScoreToUnlockNext: 70,
     chapters: [
       {
